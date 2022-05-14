@@ -2,7 +2,7 @@
 
 namespace NrmlCo\LaravelApiKeys;
 
-
+use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Support\Str;
@@ -12,7 +12,7 @@ class ApiKeyToUserProvider implements UserProvider
     private $apiKey;
     private $user;
 
-    public function __construct($user, ApiKey $apiKey)
+    public function __construct(User $user, ApiKey $apiKey)
     {
         $this->user = $user;
         $this->apiKey = $apiKey;
