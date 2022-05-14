@@ -16,7 +16,7 @@ trait HasApiKeys
      * @param array $data
      * @return void
      */
-    protected function createApiKey(string $apiKeyType = null, array $data = []){
+    public function createApiKey(string $apiKeyType = null, array $data = []){
         if ($apiKeyType === null) {
             $apiKeyType = ApiKeyType::SANDBOX;
         }
