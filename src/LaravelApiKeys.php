@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class LaravelApiKeys
 {
-    public static function create($apiKeyType = null, $data = [])
+    public static function create(string $apiKeyType = null,array $data = [])
     {
         if ($apiKeyType === null) {
             $apiKeyType = ApiKeyType::SANDBOX;

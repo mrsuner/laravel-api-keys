@@ -9,6 +9,14 @@
 
 This package is fork from `nrml-co/laravel-api-keys`, I just need this package works with php8.1 and will add Laravel 9 + support later.
 
+A config file is added, you can use `php artisan vendor:publish` to publish the config to your project's config folder.
+
+you can specify an eloquent custom model as the package's DB model by setting the `api_key_model` field.
+
+The under content is from the original source.
+
+---
+
 This package offers a different type on API key system for Laravel.  The other options are either too simple or too complex.
 
 Laravel ships with a guard that will allow you to create an access_token field in your user migration.  This allows easy

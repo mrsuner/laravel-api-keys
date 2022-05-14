@@ -14,8 +14,12 @@ class LaravelApiKeysServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->publishes([
-            __DIR__ . '/../config/config.php'   =>  config_path('api_key.php')
+            __DIR__ . '/../config/config.php'   =>  config_path('api_key.php'),            
         ]);
+
+        $this->publishes([
+            __DIR__ . '/../database/migrations/2019_01_01_000000_create_api_keys_table.php' => database_path('migrations/2019_01_01_000000_create_api_keys_table.php'),
+        ], 'laravel-api-key-migration');
     }
 
     /**
