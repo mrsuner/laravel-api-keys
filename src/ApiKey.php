@@ -2,7 +2,6 @@
 
 namespace NrmlCo\LaravelApiKeys;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class ApiKey extends Model
@@ -15,6 +14,6 @@ class ApiKey extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(config('api_key.user_model', 'App\Models\User'));
     }
 }

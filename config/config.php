@@ -5,7 +5,9 @@
  */
 return [
 
-    'api_key_table'    =>   'users_api_keys',
+    'api_key_model'    =>   null,
+
+    'user_model'   =>  null,
 
     'guards' => [
         'apikey' => [
