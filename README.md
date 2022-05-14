@@ -7,6 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/nrml-co/laravel-api-keys.svg?style=flat-square)](https://scrutinizer-ci.com/g/nrml-co/laravel-api-keys)
 -->
 
+This package is fork from `nrml-co/laravel-api-keys`, I just need this package works with php8.1 and will add Laravel 9 + support later.
 
 This package offers a different type on API key system for Laravel.  The other options are either too simple or too complex.
 

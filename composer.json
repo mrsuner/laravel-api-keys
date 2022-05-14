@@ -1,5 +1,5 @@
 {
-    "name": "nrml-co/laravel-api-keys",
+    "name": "mrsuner/laravel-api-keys",
     "description": "Easy API keys - Because laravel/passport is hard.",
     "keywords": [
         "nrml-co",
@@ -10,7 +10,7 @@
         "api-keys",
         "laravel-api-keys"
     ],
-    "homepage": "https://github.com/nrml-co/laravel-api-keys",
+    "homepage": "https://github.com/mrsuner/laravel-api-keys",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -18,12 +18,16 @@
             "name": "Ed Anisko",
             "email": "ed@normalllc.com",
             "role": "Developer"
+        },{
+            "name": "Luke Sun",
+            "email": "one@mrsuner.com",
+            "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.1",
-        "illuminate/support": "5.8.*|6.*|7.*|8.*",
-        "illuminate/auth": "5.8.*|6.*|7.*|8.*"
+        "php": "^7.1|^8.1",
+        "illuminate/support": "5.8.*|6.*|7.*|8.*|9.*",
+        "illuminate/auth": "5.8.*|6.*|7.*|8.*|9.*"
     },
     "require-dev": {
         "orchestra/testbench": "3.8.*",
