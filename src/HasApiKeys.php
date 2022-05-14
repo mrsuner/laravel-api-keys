@@ -2,6 +2,8 @@
 
 namespace NrmlCo\LaravelApiKeys;
 
+use Illuminate\Support\Str;
+
 trait HasApiKeys
 {
     public function apiKeys()
