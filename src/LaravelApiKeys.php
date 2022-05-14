@@ -15,7 +15,11 @@ class LaravelApiKeys
 
         $name = isset($data['name']) ? $data['name'] : 'Unnamed Key';
 
-        return ApiKey::firstOrCreate([
+        $model = config('api_key.api_key_model', null);
+        if($model === null) {
+            $model = ApiKey::class;
+        }
+        return $model::firstOrCreate([
             'user_id' => Auth::id(),
             'type' => $apiKeyType,
             'api_key' => Str::random(60),

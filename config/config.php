@@ -5,6 +5,8 @@
  */
 return [
 
+    'api_key_table'    =>   'users_api_keys',
+
     'guards' => [
         'apikey' => [
             // access_token is what we defined inside Auth::extend
