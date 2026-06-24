@@ -80,6 +80,18 @@ class ApiKeyServiceTest extends TestCase
         $this->assertTrue($resolved->relationLoaded('user'));
     }
 
+    public function test_resolve_rejects_key_when_environment_segment_is_changed(): void
+    {
+        $created = $this->service->create($this->user, [
+            'name'        => 'Test key',
+            'environment' => 'test',
+        ]);
+
+        $tampered = str_replace('sk_test_', 'sk_live_', $created->plaintext);
+
+        $this->assertNull($this->service->resolve($tampered));
+    }
+
     public function test_revoke_sets_is_active_false_and_revoked_at(): void
     {
         $created = $this->service->create($this->user, ['name' => 'Prod']);

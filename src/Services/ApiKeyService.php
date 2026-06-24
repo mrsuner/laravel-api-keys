@@ -72,15 +72,16 @@ class ApiKeyService
      */
     public function resolve(string $rawKey): ?ApiKey
     {
-        $token = $this->parseToken($rawKey);
+        $parsed = $this->parseToken($rawKey);
 
-        if ($token === null) {
+        if ($parsed === null) {
             return null;
         }
 
         /** @var ApiKey|null $key */
         $key = ApiKey::query()
-            ->where('key_hash', $this->hash($token))
+            ->where('key_hash', $this->hash($parsed['token']))
+            ->where('environment', $parsed['environment'])
             ->with('user')
             ->first();
 
@@ -163,11 +164,14 @@ class ApiKeyService
     }
 
     /**
-     * Extract the token segment from a raw key, or null if the format is wrong.
+     * Extract the environment and token segment from a raw key, or null if the
+     * format is wrong.
      *
      * Expected format: {prefix}_{environment}_{token}
+     *
+     * @return array{environment: string, token: string}|null
      */
-    private function parseToken(string $rawKey): ?string
+    private function parseToken(string $rawKey): ?array
     {
         $appPrefix    = (string) config('api-keys.key_prefix', 'sk');
         $environments = (array) config('api-keys.environments', ['live', 'test']);
@@ -189,7 +193,7 @@ class ApiKeyService
             return null;
         }
 
-        return $token;
+        return ['environment' => $environment, 'token' => $token];
     }
 
     /**

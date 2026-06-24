@@ -41,8 +41,9 @@ sk_live_A3F9K2MNPQRSTUVWXYZ23
  └──────────────────── product prefix (config: api-keys.key_prefix)
 ```
 
-Only a SHA-256 hash of the **token** segment is stored (`key_hash`). The plaintext key is
-returned exactly once, at creation and rotation. A plaintext `key_prefix`
+Only a SHA-256 hash of the **token** segment is stored (`key_hash`), and authentication
+also requires the raw key's environment segment to match the stored `environment`. The
+plaintext key is returned exactly once, at creation and rotation. A plaintext `key_prefix`
 (`sk_live_A3F9K2MN`) is kept for display so admin UIs can identify a key without the secret.
 
 ## Authenticating requests
