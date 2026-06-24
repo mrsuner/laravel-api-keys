@@ -1,0 +1,55 @@
+{
+    "name": "mrsuner/laravel-api-keys",
+    "description": "Developer API key management (prefix-routed keys, rotation with overlap, per-key rate limits, async usage tracking) for Laravel. Works standalone and auto-wires into mrsuner/laravel-api-boilerplate.",
+    "keywords": ["laravel", "api-keys", "authentication", "sanctum", "rate-limit", "boilerplate"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mrsuner"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0",
+        "illuminate/database": "^11.0|^12.0",
+        "illuminate/queue": "^11.0|^12.0",
+        "illuminate/cache": "^11.0|^12.0",
+        "illuminate/console": "^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "laravel/sanctum": "^4.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "suggest": {
+        "laravel/sanctum": "Required so a resolved API key authenticates identically to a Sanctum token (auth:sanctum / ability:admin)."
+    },
+    "autoload": {
+        "psr-4": {
+            "Mrsuner\\ApiKeys\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mrsuner\\ApiKeys\\Tests\\": "tests/"
+        },
+        "files": [
+            "tests/Support/helpers.php"
+        ]
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mrsuner\\ApiKeys\\ApiKeyServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

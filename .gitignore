@@ -1,0 +1,40 @@
+# Dependencies
+/vendor/
+
+# composer.lock is not committed for a library — consumers resolve their own
+composer.lock
+composer.phar
+
+# Test & static-analysis caches
+/build/
+/coverage/
+.phpunit.result.cache
+.phpunit.cache/
+.php-cs-fixer.cache
+.phpstan.cache
+.phpstan/
+
+# Testbench / workbench scratch
+/.phpunit.cache
+/testbench.yaml
+/vendor/orchestra/testbench-core/laravel/
+
+# Environment
+.env
+.env.backup
+.env.*.local
+
+# Editors / IDEs
+/.idea/
+/.vscode/
+/.fleet/
+/.nova/
+*.sublime-project
+*.sublime-workspace
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
