@@ -125,7 +125,8 @@ return [
     | middleware: null = auto-detect. When the boilerplate's
     |             App\Http\Middleware\InternalIpWhitelist class is present, the
     |             full admin stack is applied; otherwise the package falls back
-    |             to ['auth:sanctum'] so it works in any Laravel app.
+    |             to ['auth:sanctum', 'ability:admin'] so it works safely in any
+    |             Laravel app.
     |
     */
     'admin_route' => [

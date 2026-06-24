@@ -7,8 +7,8 @@ It **layers over** Laravel Sanctum rather than replacing it: a resolved key auth
 the request through the existing `auth:sanctum` stack, so every route, policy, and response
 envelope keeps working unchanged. The package runs standalone in any Laravel 11/12 app and
 auto-wires into [`mrsuner/laravel-api-boilerplate`](https://github.com/mrsuner/laravel-api-boilerplate)
-when present (its `audit_log()` helper and `InternalIpWhitelist` middleware are detected at
-runtime; neither is required).
+when present (its `audit_log()` helper, `InternalIpWhitelist`, and `EnsureAdminAccess`
+middleware are detected at runtime; none are required).
 
 ## Why not just Sanctum tokens?
 
@@ -106,8 +106,8 @@ $service->resolve($bearer);                           // ?ApiKey (single indexed
 ### Admin endpoints (default prefix `internal/admin/v1`)
 
 Mounted under the boilerplate admin stack (`InternalIpWhitelist` + `auth:sanctum` +
-`ability:admin`) when detected, otherwise a minimal `auth:sanctum` stack. Override with
-`api-keys.admin_route.middleware`.
+`ability:admin` + `EnsureAdminAccess` when available) when detected, otherwise a minimal
+`auth:sanctum` + `ability:admin` stack. Override with `api-keys.admin_route.middleware`.
 
 | Method & path                                | Action                          |
 | -------------------------------------------- | ------------------------------- |

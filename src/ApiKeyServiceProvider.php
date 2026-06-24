@@ -140,6 +140,6 @@ class ApiKeyServiceProvider extends ServiceProvider
             return $middleware;
         }
 
-        return ['auth:sanctum'];
+        return ['auth:sanctum', 'ability:admin'];
     }
 }
