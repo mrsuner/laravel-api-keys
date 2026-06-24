@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 use Mrsuner\ApiKeys\Http\Requests\CreateApiKeyRequest;
 use Mrsuner\ApiKeys\Http\Requests\RotateApiKeyRequest;
 use Mrsuner\ApiKeys\Http\Requests\UpdateApiKeyRequest;
@@ -38,21 +39,13 @@ class ApiKeyController extends Controller
     public function store(CreateApiKeyRequest $request): JsonResponse
     {
         $user = $request->user();
-
         $max = config('api-keys.max_keys_per_user');
 
-        if ($max !== null) {
-            $active = ApiKey::query()
-                ->where('user_id', $user->getKey())
-                ->where('is_active', true)
-                ->count();
-
-            if ($active >= (int) $max) {
-                return $this->respondError(422, "Maximum of {$max} active API keys reached.");
-            }
+        try {
+            $created = $this->service->create($user, $request->validated(), $max === null ? null : (int) $max);
+        } catch (InvalidArgumentException $exception) {
+            return $this->respondError(422, $exception->getMessage());
         }
-
-        $created = $this->service->create($user, $request->validated());
 
         return $this->createdKeyResponse($request, $created);
     }

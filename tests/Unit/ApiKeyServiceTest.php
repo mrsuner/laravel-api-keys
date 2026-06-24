@@ -200,4 +200,18 @@ class ApiKeyServiceTest extends TestCase
 
         $this->service->create($this->user, ['name' => 'Prod', 'environment' => 'staging']);
     }
+
+    public function test_create_with_quota_rejects_when_max_active_keys_is_reached(): void
+    {
+        $this->service->create($this->user, ['name' => 'One'], 1);
+
+        try {
+            $this->service->create($this->user, ['name' => 'Two'], 1);
+            $this->fail('Expected quota exception was not thrown.');
+        } catch (\InvalidArgumentException $exception) {
+            $this->assertSame('Maximum of 1 active API keys reached.', $exception->getMessage());
+        }
+
+        $this->assertSame(1, ApiKey::query()->count());
+    }
 }

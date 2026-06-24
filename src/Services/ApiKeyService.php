@@ -6,6 +6,7 @@ namespace Mrsuner\ApiKeys\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Mrsuner\ApiKeys\Models\ApiKey;
 use Mrsuner\ApiKeys\ValueObjects\CreatedKey;
@@ -28,10 +29,42 @@ class ApiKeyService
      *
      * @param  array<string, mixed>  $attributes  name, environment, abilities,
      *                                             rate_limit, expires_at
+     * @param  int|null  $maxActiveKeys  Optional user-facing quota enforced
+     *                                    inside a transaction.
      *
      * @throws InvalidArgumentException When environment is not configured.
+     * @throws InvalidArgumentException When the optional user quota is reached.
      */
-    public function create(Model $user, array $attributes): CreatedKey
+    public function create(Model $user, array $attributes, ?int $maxActiveKeys = null): CreatedKey
+    {
+        if ($maxActiveKeys === null) {
+            return $this->createWithoutLimit($user, $attributes);
+        }
+
+        return DB::transaction(function () use ($user, $attributes, $maxActiveKeys): CreatedKey {
+            $user->newQuery()
+                ->whereKey($user->getKey())
+                ->lockForUpdate()
+                ->first();
+
+            $active = ApiKey::query()
+                ->where('user_id', $user->getKey())
+                ->usable()
+                ->count();
+
+            if ($active >= $maxActiveKeys) {
+                throw new InvalidArgumentException("Maximum of {$maxActiveKeys} active API keys reached.");
+            }
+
+            return $this->createWithoutLimit($user, $attributes);
+        });
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes  name, environment, abilities,
+     *                                             rate_limit, expires_at
+     */
+    private function createWithoutLimit(Model $user, array $attributes): CreatedKey
     {
         $environment = $attributes['environment'] ?? 'live';
         $environments = (array) config('api-keys.environments', ['live', 'test']);
