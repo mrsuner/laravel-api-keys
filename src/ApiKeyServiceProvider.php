@@ -123,14 +123,21 @@ class ApiKeyServiceProvider extends ServiceProvider
         }
 
         $boilerplateIpWhitelist = 'App\\Http\\Middleware\\InternalIpWhitelist';
+        $boilerplateAdminAccess = 'App\\Http\\Middleware\\EnsureAdminAccess';
 
         if (class_exists($boilerplateIpWhitelist)) {
-            return [
+            $middleware = [
                 'throttle:60,1',
                 $boilerplateIpWhitelist,
                 'auth:sanctum',
                 'ability:admin',
             ];
+
+            if (class_exists($boilerplateAdminAccess)) {
+                $middleware[] = $boilerplateAdminAccess;
+            }
+
+            return $middleware;
         }
 
         return ['auth:sanctum'];
