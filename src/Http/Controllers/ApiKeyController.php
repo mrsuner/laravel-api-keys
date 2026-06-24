@@ -82,6 +82,10 @@ class ApiKeyController extends Controller
     {
         $this->authorizeOwnership($request, $key);
 
+        if (! $key->isUsable()) {
+            return $this->respondError(422, 'Only active API keys can be rotated.');
+        }
+
         $overlapMinutes = (int) $request->integer('overlap_minutes', 0);
         $overlapUntil = $overlapMinutes > 0 ? now()->addMinutes($overlapMinutes) : null;
 

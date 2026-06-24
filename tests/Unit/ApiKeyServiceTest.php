@@ -129,6 +129,17 @@ class ApiKeyServiceTest extends TestCase
         $this->assertFalse($old->isUsable());
     }
 
+    public function test_rotate_rejects_revoked_key(): void
+    {
+        $created = $this->service->create($this->user, ['name' => 'Prod']);
+        $this->service->revoke($created->model);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Only active API keys can be rotated.');
+
+        $this->service->rotate($created->model->fresh());
+    }
+
     public function test_create_emits_audit_log(): void
     {
         $this->service->create($this->user, ['name' => 'Prod']);

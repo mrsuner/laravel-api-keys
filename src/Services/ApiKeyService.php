@@ -110,6 +110,10 @@ class ApiKeyService
      */
     public function rotate(ApiKey $oldKey, ?Carbon $overlapUntil = null): CreatedKey
     {
+        if (! $oldKey->isUsable()) {
+            throw new InvalidArgumentException('Only active API keys can be rotated.');
+        }
+
         $new = $this->create($oldKey->user, [
             'name'        => $oldKey->name,
             'environment' => $oldKey->environment,

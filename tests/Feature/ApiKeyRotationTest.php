@@ -6,6 +6,7 @@ namespace Mrsuner\ApiKeys\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
+use Mrsuner\ApiKeys\Models\ApiKey;
 use Mrsuner\ApiKeys\Services\ApiKeyService;
 use Mrsuner\ApiKeys\Tests\Fixtures\User;
 use Mrsuner\ApiKeys\Tests\TestCase;
@@ -46,6 +47,34 @@ class ApiKeyRotationTest extends TestCase
         $this->postJson("/v1/api-keys/{$created->model->id}/rotate")
             ->assertCreated()
             ->assertJsonStructure(['data' => ['key', 'message', 'api_key']]);
+    }
+
+    public function test_revoked_key_cannot_be_rotated(): void
+    {
+        $created = $this->service->create($this->user, ['name' => 'Prod']);
+        $this->service->revoke($created->model, 'admin_revoked');
+
+        Sanctum::actingAs($this->user, ['*']);
+
+        $this->postJson("/v1/api-keys/{$created->model->id}/rotate")
+            ->assertStatus(422)
+            ->assertJsonPath('message', 'Only active API keys can be rotated.');
+
+        $this->assertSame(1, ApiKey::query()->count());
+    }
+
+    public function test_expired_key_cannot_be_rotated(): void
+    {
+        $created = $this->service->create($this->user, ['name' => 'Prod']);
+        $created->model->forceFill(['expires_at' => now()->subMinute()])->save();
+
+        Sanctum::actingAs($this->user, ['*']);
+
+        $this->postJson("/v1/api-keys/{$created->model->id}/rotate")
+            ->assertStatus(422)
+            ->assertJsonPath('message', 'Only active API keys can be rotated.');
+
+        $this->assertSame(1, ApiKey::query()->count());
     }
 
     public function test_rotation_without_overlap_immediately_invalidates_old_key(): void
