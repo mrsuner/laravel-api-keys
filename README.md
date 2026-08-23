@@ -5,7 +5,7 @@ with an overlap window, per-key rate limits, abilities, and async usage tracking
 
 It **layers over** Laravel Sanctum rather than replacing it: a resolved key authenticates
 the request through the existing `auth:sanctum` stack, so every route, policy, and response
-envelope keeps working unchanged. The package runs standalone in any Laravel 11/12 app and
+envelope keeps working unchanged. The package runs standalone in any Laravel 12/13 app and
 auto-wires into [`mrsuner/laravel-api-boilerplate`](https://github.com/mrsuner/laravel-api-boilerplate)
 when present (its `audit_log()` helper, `InternalIpWhitelist`, and `EnsureAdminAccess`
 middleware are detected at runtime; none are required).

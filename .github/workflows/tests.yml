@@ -1,0 +1,86 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    name: Laravel ${{ matrix.laravel }} / PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - laravel: 12
+            php: '8.2'
+            testbench: ^10.0
+            phpunit: ^11.5.50
+          - laravel: 12
+            php: '8.3'
+            testbench: ^10.0
+            phpunit: ^11.5.50
+          - laravel: 12
+            php: '8.4'
+            testbench: ^10.0
+            phpunit: ^11.5.50
+          - laravel: 13
+            php: '8.3'
+            testbench: ^11.0
+            phpunit: ^12.5.8
+          - laravel: 13
+            php: '8.4'
+            testbench: ^11.0
+            phpunit: ^12.5.8
+          - laravel: 13
+            php: '8.5'
+            testbench: ^11.0
+            phpunit: ^12.5.8
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo_sqlite
+          coverage: none
+          tools: composer:v2
+
+      - name: Select Testbench version
+        run: composer require --dev "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-update
+
+      - name: Resolve dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
+
+      - name: Run tests
+        run: composer test
+
+  dependency-audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate Composer manifest
+        run: composer validate --strict --no-check-lock --no-check-publish
+
+      - name: Resolve current dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
+
+      - name: Audit resolved dependencies
+        run: composer audit --locked
