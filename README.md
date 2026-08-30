@@ -3,6 +3,10 @@
 Developer API key management for Laravel — prefix-routed keys (`sk_live_…`), rotation
 with an overlap window, per-key rate limits, abilities, and async usage tracking.
 
+[![Tests](https://github.com/mrsuner/laravel-api-keys/actions/workflows/tests.yml/badge.svg)](https://github.com/mrsuner/laravel-api-keys/actions/workflows/tests.yml)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mrsuner/laravel-api-keys.svg)](https://packagist.org/packages/mrsuner/laravel-api-keys)
+[![License](https://img.shields.io/github/license/mrsuner/laravel-api-keys)](LICENSE)
+
 It **layers over** Laravel Sanctum rather than replacing it: a resolved key authenticates
 the request through the existing `auth:sanctum` stack, so every route, policy, and response
 envelope keeps working unchanged. The package runs standalone in any Laravel 12/13 app and
@@ -23,7 +27,7 @@ middleware are detected at runtime; none are required).
 ## Installation
 
 ```bash
-composer require mrsuner/laravel-api-keys
+composer require mrsuner/laravel-api-keys "^1.0"
 php artisan vendor:publish --tag=api-keys-config   # optional
 php artisan migrate
 ```
@@ -171,4 +175,4 @@ ULID-keyed test user that mirrors the boilerplate.
 
 ## License
 
-MIT.
+[MIT](LICENSE).

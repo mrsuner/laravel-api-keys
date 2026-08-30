@@ -1,8 +1,14 @@
 {
     "name": "mrsuner/laravel-api-keys",
+    "type": "library",
     "description": "Developer API key management (prefix-routed keys, rotation with overlap, per-key rate limits, async usage tracking) for Laravel. Works standalone and auto-wires into mrsuner/laravel-api-boilerplate.",
     "keywords": ["laravel", "api-keys", "authentication", "sanctum", "rate-limit", "boilerplate"],
     "license": "MIT",
+    "homepage": "https://github.com/mrsuner/laravel-api-keys",
+    "support": {
+        "issues": "https://github.com/mrsuner/laravel-api-keys/issues",
+        "source": "https://github.com/mrsuner/laravel-api-keys"
+    },
     "authors": [
         {
             "name": "mrsuner"
