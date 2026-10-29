@@ -16,11 +16,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^12.0|^13.0",
-        "illuminate/database": "^12.0|^13.0",
-        "illuminate/queue": "^12.0|^13.0",
-        "illuminate/cache": "^12.0|^13.0",
-        "illuminate/console": "^12.0|^13.0"
+        "laravel/framework": "^12.69|^13.30"
     },
     "require-dev": {
         "orchestra/testbench": "^10.0|^11.0",
@@ -47,7 +43,10 @@
         "test": "@php vendor/bin/phpunit"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.3.0"
+        }
     },
     "extra": {
         "laravel": {

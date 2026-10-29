@@ -24,6 +24,16 @@ middleware are detected at runtime; none are required).
 | Usage tracking   | `last_used_at` only    | IP + endpoint + request count |
 | Admin visibility | Token list by user     | Revoke + per-key usage stats  |
 
+## Requirements
+
+- PHP `^8.2`
+- Laravel `^12.69 | ^13.30`
+- `laravel/sanctum` for the default user/admin routes and Sanctum authentication integration.
+
+## Development
+
+The committed lock file targets PHP 8.3 and Laravel 13. Run `composer install` and `composer test` for that baseline. CI separately resolves dependencies for each supported Laravel/PHP combination, including Laravel 12 on PHP 8.2.
+
 ## Installation
 
 ```bash

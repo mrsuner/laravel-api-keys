@@ -52,6 +52,9 @@ jobs:
           coverage: none
           tools: composer:v2
 
+      - name: Match dependency resolution to PHP
+        run: composer config platform.php "${{ matrix.php }}.0"
+
       - name: Select Testbench version
         run: composer require --dev "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-update
 
@@ -76,8 +79,11 @@ jobs:
           coverage: none
           tools: composer:v2
 
-      - name: Validate Composer manifest
-        run: composer validate --strict --no-check-lock --no-check-publish
+      - name: Validate Composer files
+        run: composer validate --strict --no-check-publish
+
+      - name: Audit committed lock file
+        run: composer audit --locked
 
       - name: Resolve current dependencies
         run: composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
